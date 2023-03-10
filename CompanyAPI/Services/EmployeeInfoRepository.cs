@@ -6,8 +6,8 @@ namespace CompanyAPI.Services
 {
 	public class EmployeeInfoRepository : IEmployeeInfoRepository
 	{
-		private readonly EmployeeInfoContext _context;
-		public EmployeeInfoRepository(EmployeeInfoContext context)
+		private readonly CompanyContext _context;
+		public EmployeeInfoRepository(CompanyContext context)
 		{
 			_context = context;
 		}
@@ -39,6 +39,11 @@ namespace CompanyAPI.Services
 		public async Task AddEmployeeAsync(Employee newEmployee)
 		{
 			_context.Employees.Add(newEmployee);
+		}
+		
+		public void DeleteEmployee(Employee employeeForDelete)
+		{
+			_context.Employees.Remove(employeeForDelete);
 		}
 		public async Task<bool> SaveChangesAsync()
 		{

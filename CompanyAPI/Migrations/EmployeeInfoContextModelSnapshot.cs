@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompanyAPI.Migrations
 {
-    [DbContext(typeof(EmployeeInfoContext))]
+    [DbContext(typeof(CompanyContext))]
     partial class EmployeeInfoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -48,27 +48,12 @@ namespace CompanyAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateOfBirth = new DateTime(1993, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "aleksandra@gmail.com",
-                            FirstName = "Aleksandra",
-                            LastName = "Brankovan",
-                            MonthlySalary = 323f,
-                            Phone = "018200200"
-                        });
                 });
 
             modelBuilder.Entity("CompanyAPI.Entities.EmployeeTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Assigned")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -90,17 +75,6 @@ namespace CompanyAPI.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Tasks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Assigned = true,
-                            Description = "Clean work table",
-                            DueDate = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EmployeeId = 0,
-                            Title = "Cleaning"
-                        });
                 });
 
             modelBuilder.Entity("CompanyAPI.Entities.EmployeeTask", b =>

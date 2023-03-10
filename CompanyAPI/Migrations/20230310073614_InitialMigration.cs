@@ -60,7 +60,7 @@ namespace CompanyAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Tasks",
                 columns: new[] { "Id", "Assigned", "Description", "DueDate", "EmployeeId", "Title" },
-                values: new object[] { 1, true, "Clean work table", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Cleaning" });
+                values: new object[] { 1, true, "Clean work table", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Cleaning" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_EmployeeId",

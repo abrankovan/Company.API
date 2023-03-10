@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 namespace CompanyAPI.Models
 {
-	public class EmployeeDto
+	public class GetEmployeeResponseDto
 	{
 		public int Id { get; set; }
 		public string FirstName { get; set; }

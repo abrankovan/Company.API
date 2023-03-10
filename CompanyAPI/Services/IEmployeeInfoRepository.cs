@@ -9,6 +9,7 @@ namespace CompanyAPI.Services
 		Task<IEnumerable<EmployeeTask>>GetTasksAsync();
 		Task<EmployeeTask?>GetTaskAsync(int employeeTaskId);
 		Task AddEmployeeAsync(Employee newEmployee);
+		void DeleteEmployee(Employee employeeForDeleteemployee);
 		Task <bool> SaveChangesAsync();
 	}
 }

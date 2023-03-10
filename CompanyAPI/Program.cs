@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<EmployeeInfoContext>(
+builder.Services.AddDbContext<CompanyContext>(
 	dbContextOptions => dbContextOptions.UseSqlite(
 	builder.Configuration["ConnectionStrings:CompanyAPIDBConnectionString"]));
 builder.Services.AddScoped<IEmployeeInfoRepository, EmployeeInfoRepository>();

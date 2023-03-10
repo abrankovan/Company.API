@@ -2,7 +2,7 @@
 
 namespace CompanyAPI.Models
 {
-	public class EmployeeForCreatingDto
+	public class PostEmployeeRequestDto
 	{
 		[Required(ErrorMessage = "You should provide a first name value")]
 		public string FirstName { get; set; }

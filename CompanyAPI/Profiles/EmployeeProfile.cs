@@ -8,8 +8,9 @@ namespace CompanyAPI.Profiles
 	{
 		public EmployeeProfile()
 		{
-			CreateMap<Employee, EmployeeDto>();
-			CreateMap<EmployeeForCreatingDto, Employee>();
+			CreateMap<Employee, GetEmployeeResponseDto>();
+			CreateMap<PostEmployeeRequestDto, Employee>();
+			CreateMap<PutEmployeeRequestDto, Employee>();
 
 		}
 	}
