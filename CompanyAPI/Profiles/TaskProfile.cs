@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CompanyAPI.Dtos.Tasks;
+using CompanyAPI.Entities;
 
 namespace CompanyAPI.Profiles
 {
@@ -6,7 +8,9 @@ namespace CompanyAPI.Profiles
 	{
 		public TaskProfile()
 		{
-			CreateMap<Entities.EmployeeTask, Models.TaskDto>();
+			CreateMap<EmployeeTask, GetTaskResponseDto>();
+			CreateMap<PutTaskRequestDto, EmployeeTask>();
+			CreateMap<PostTaskRequestDto, EmployeeTask>();
 		}
 	}
 }

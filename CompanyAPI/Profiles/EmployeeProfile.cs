@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using CompanyAPI.Dtos.Employee;
 using CompanyAPI.Entities;
-using CompanyAPI.Models;
 
 namespace CompanyAPI.Profiles
 {
-	public class EmployeeProfile : Profile
+    public class EmployeeProfile : Profile
 	{
 		public EmployeeProfile()
 		{

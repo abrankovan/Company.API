@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using CompanyAPI.Dtos.Employee;
 using CompanyAPI.Entities;
-using CompanyAPI.Models;
 using CompanyAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ namespace CompanyAPI.Controllers
 		}
 
 		[HttpGet("{id}", Name = "GetEmployee")]
-		public async Task<IActionResult> GetEmployee(int id, bool includeTasks)
+		public async Task<ActionResult> GetEmployee(int id, bool includeTasks)
 		{
 			var employee = await _employeeInfoRepository.GetEmployeeAsync(id, includeTasks);
 			if (employee == null)
@@ -35,7 +35,7 @@ namespace CompanyAPI.Controllers
 			var createdEmployee = _mapper.Map<Entities.Employee>(newEmployee);
 			await _employeeInfoRepository.AddEmployeeAsync(createdEmployee);
 			await _employeeInfoRepository.SaveChangesAsync();
-			var createdEmployeeToReturn = _mapper.Map<Models.GetEmployeeResponseDto>(createdEmployee);
+			var createdEmployeeToReturn = _mapper.Map<GetEmployeeResponseDto>(createdEmployee);
 			return CreatedAtRoute("GetEmployee",
 				new
 				{

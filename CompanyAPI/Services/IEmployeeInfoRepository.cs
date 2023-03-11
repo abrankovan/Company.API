@@ -6,10 +6,9 @@ namespace CompanyAPI.Services
 	{
 		Task<IEnumerable<Employee>>GetEmployeesAsync();
 		Task<Employee?>GetEmployeeAsync(int employeeId, bool includeTasks);
-		Task<IEnumerable<EmployeeTask>>GetTasksAsync();
-		Task<EmployeeTask?>GetTaskAsync(int employeeTaskId);
 		Task AddEmployeeAsync(Employee newEmployee);
+		Task<bool>EmployeeExistsAsync(int employeeId);
 		void DeleteEmployee(Employee employeeForDeleteemployee);
-		Task <bool> SaveChangesAsync();
+		Task<bool> SaveChangesAsync();
 	}
 }

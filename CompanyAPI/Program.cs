@@ -16,6 +16,7 @@ builder.Services.AddDbContext<CompanyContext>(
 	dbContextOptions => dbContextOptions.UseSqlite(
 	builder.Configuration["ConnectionStrings:CompanyAPIDBConnectionString"]));
 builder.Services.AddScoped<IEmployeeInfoRepository, EmployeeInfoRepository>();
+builder.Services.AddScoped<ITaskInfoRepository, TaskInfoRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 

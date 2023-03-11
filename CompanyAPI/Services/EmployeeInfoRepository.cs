@@ -19,23 +19,21 @@ namespace CompanyAPI.Services
 		{
 			if (includeTasks)
 			{
-				return await _context.Employees.Include(e => e.Task)
-			.Where(e => e.Id == employeeId).FirstOrDefaultAsync();
+				return await _context
+					.Employees
+					.Include(e => e.Tasks)
+					.Where(e => e.Id == employeeId)
+					.FirstOrDefaultAsync();
 			}
-			return await _context.Employees
-				.Where(e => e.Id == employeeId).FirstOrDefaultAsync();
+			return await _context
+				.Employees
+				.Where(e => e.Id == employeeId)
+				.FirstOrDefaultAsync();
 		}
-		public async Task<IEnumerable<EmployeeTask>> GetTasksAsync()
+		public async Task<bool> EmployeeExistsAsync(int employeeId)
 		{
-			return await _context.Tasks.OrderBy(t => t.Id).ToListAsync();
+			return await _context.Employees.AnyAsync(e => e.Id == employeeId);
 		}
-		public async Task<EmployeeTask?> GetTaskAsync(int employeeTaskId)
-		{
-			return await _context.Tasks.Where(t => t.Id == employeeTaskId).FirstOrDefaultAsync();
-		}
-
-		// odavde dalje
-
 		public async Task AddEmployeeAsync(Employee newEmployee)
 		{
 			_context.Employees.Add(newEmployee);
