@@ -30,7 +30,7 @@ namespace CompanyAPI.Controllers
 			return Ok(_mapper.Map<GetEmployeeResponseDto>(employee));
 		}
 		[HttpPost]
-		public async Task<ActionResult> AddEmployeeAsync(PostEmployeeRequestDto newEmployee)
+		public async Task<ActionResult> AddEmployeeAsync(int departmentId, PostEmployeeRequestDto newEmployee)
 		{
 			var createdEmployee = _mapper.Map<Entities.Employee>(newEmployee);
 			await _employeeInfoRepository.AddEmployeeAsync(createdEmployee);

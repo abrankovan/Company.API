@@ -7,6 +7,7 @@ namespace CompanyAPI.DbContexts
 	{
 		public DbSet<Employee> Employees { get; set; } 
 		public DbSet<EmployeeTask> Tasks { get; set; }
+		public DbSet<Department> Department { get; set;}
 		public CompanyContext(DbContextOptions<CompanyContext> options) : base(options)
 		{
 

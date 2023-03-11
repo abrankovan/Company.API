@@ -14,6 +14,11 @@ namespace CompanyAPI.Entities
 		public string Phone { get; set; }
 		public DateTime DateOfBirth { get; set; }
 		public float MonthlySalary { get; set; }
+
+		[ForeignKey("DepartmentId")]
+		public Department? Department { get; set; }
+		public int DepartmentId { get; set; }
+
 		public ICollection<EmployeeTask> Tasks { get; set; }
 			=new List<EmployeeTask>();
 	}

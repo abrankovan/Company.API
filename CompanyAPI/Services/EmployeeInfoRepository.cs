@@ -13,7 +13,10 @@ namespace CompanyAPI.Services
 		}
 		public async Task<IEnumerable<Employee>> GetEmployeesAsync()
 		{
-			return await _context.Employees.OrderBy(e => e.FirstName).ToListAsync();
+			return await _context
+				.Employees
+				.OrderBy(e => e.FirstName)
+				.ToListAsync();
 		}
 		public async Task<Employee?> GetEmployeeAsync(int employeeId, bool includeTasks)
 		{

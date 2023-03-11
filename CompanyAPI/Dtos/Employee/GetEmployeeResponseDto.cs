@@ -10,12 +10,12 @@ namespace CompanyAPI.Dtos.Employee
         {
             get
             {
-                return Task.Count;
+                return Tasks.Count;
             }
         }
 
 
-        public ICollection<GetTaskResponseDto> Task { get; set; }
+        public ICollection<GetTaskResponseDto> Tasks { get; set; }
             = new List<GetTaskResponseDto>();
     }
 }

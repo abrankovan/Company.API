@@ -17,6 +17,7 @@ builder.Services.AddDbContext<CompanyContext>(
 	builder.Configuration["ConnectionStrings:CompanyAPIDBConnectionString"]));
 builder.Services.AddScoped<IEmployeeInfoRepository, EmployeeInfoRepository>();
 builder.Services.AddScoped<ITaskInfoRepository, TaskInfoRepository>();
+builder.Services.AddScoped<IDepartmentInfoRepository, DepartmentInfoRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
