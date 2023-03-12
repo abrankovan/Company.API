@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CompanyAPI.Dtos.Employee;
 using CompanyAPI.Entities;
+using CompanyAPI.Models;
 using CompanyAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,7 @@ namespace CompanyAPI.Controllers
 			}
 			var allemployees = await _employeeInfoRepository.GetEmployeesFromDepartmentAsync(departmentId);
 			return Ok(_mapper.Map<IEnumerable<GetEmployeeResponseDto>>(allemployees));
-			
+
 		}
 
 		[HttpGet("{employeeId}", Name = "GetEmployee")]
@@ -43,6 +44,15 @@ namespace CompanyAPI.Controllers
 			}
 			return Ok(_mapper.Map<GetEmployeeResponseDto>(employee));
 		}
+		[HttpGet("topFive")]
+		public async Task<ActionResult<IEnumerable<GetTopFiveEmployeesDto>>> GetTopFiveEmployees()
+		{
+			var topFive = await _employeeInfoRepository.GetTopFiveEmployeesAsync();
+			var topFiveExtended = _mapper.Map<IEnumerable<GetTopFiveEmployees>>(topFive);
+			return Ok(_mapper.Map<IEnumerable<GetTopFiveEmployeesDto>>(topFiveExtended));
+		}
+
+
 		[HttpPost]
 		public async Task<ActionResult> AddEmployeeAsync(int departmentId, PostEmployeeRequestDto newEmployee)
 		{

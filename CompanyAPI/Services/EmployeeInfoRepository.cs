@@ -1,5 +1,6 @@
 ﻿using CompanyAPI.DbContexts;
 using CompanyAPI.Entities;
+using CompanyAPI.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyAPI.Services
@@ -36,13 +37,29 @@ namespace CompanyAPI.Services
 				.Where(e => e.Id == employeeId)
 				.FirstOrDefaultAsync();
 		}
+		public async Task<IEnumerable<Employee>> GetTopFiveEmployeesAsync()
+		{
+			return await _context
+				.Employees
+				.Include(e => e.Tasks)
+				.OrderByDescending(
+					e => e.Tasks
+						.Count(
+							t => t.Status == TaskStatuses.Done && 
+							t.DueDate.Year == DateTime.UtcNow.Year && 
+							t.DueDate.Month == DateTime.UtcNow.AddMonths(-1).Month
+						)
+					)
+				.Take(5)
+				.ToListAsync();
+		}
 		public async Task<bool> EmployeeExistsAsync(int employeeId)
 		{
 			return await _context.Employees.AnyAsync(e => e.Id == employeeId);
 		}
 		public async Task AddEmployeeAsync(Employee newEmployee)
 		{
-			_context.Employees.Add(newEmployee);
+			await _context.Employees.AddAsync(newEmployee);
 		}
 		public async Task AddEmployeeForDepartmentAsync(int departmentId, Employee newEmployee)
 		{

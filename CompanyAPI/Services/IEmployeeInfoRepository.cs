@@ -6,6 +6,7 @@ namespace CompanyAPI.Services
 	{
 		Task<IEnumerable<Employee>>GetEmployeesFromDepartmentAsync(int departmentId);
 		Task<Employee?>GetEmployeeAsync(int employeeId, bool includeTasks);
+		Task<IEnumerable<Employee>> GetTopFiveEmployeesAsync();
 		Task AddEmployeeAsync(Employee newEmployee);
 		Task AddEmployeeForDepartmentAsync(int departmentId, Employee newEmployee);
 		Task<bool>EmployeeExistsAsync(int employeeId);
