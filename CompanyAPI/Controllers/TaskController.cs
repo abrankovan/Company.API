@@ -22,6 +22,18 @@ namespace CompanyAPI.Controllers
 			_employeeInfoRepository = employeeInfoRepository;
 			_taskInfoRepository = taskInfoRepository;
 		}
+		[HttpGet("all/{employeeId}")]
+		public async Task<ActionResult<IEnumerable<TaskDto>>> GetETasksFromEmployee(int employeeId)
+		{
+			var employee = await _employeeInfoRepository.GetEmployeeAsync(employeeId, true);
+			if (employee == null)
+			{
+				return NotFound("Employee with that Id dose not exist");
+			}
+			var alltasks = await _taskInfoRepository.GetTasksFromEmployeeAsync(employeeId);
+			return Ok(_mapper.Map<IEnumerable<GetTaskResponseDto>>(alltasks));
+
+		}
 		[HttpGet("{taskId}", Name ="GetTask")]
 		public async Task<ActionResult<GetTaskResponseDto>> GetTask(int taskId)
 		{

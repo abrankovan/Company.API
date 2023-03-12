@@ -15,11 +15,22 @@ namespace CompanyAPI.Services
 		}
 		public async Task<IEnumerable<EmployeeTask>> GetTasksAsync()
 		{
-			return await _context.Tasks.OrderBy(t => t.Id).ToListAsync();
+			return await _context
+				.Tasks
+				.OrderBy(t => t.Id)
+				.ToListAsync();
 		}
 		public async Task<EmployeeTask> GetTaskAsync(int taskId)
 		{
 			return await _context.Tasks.Where(t => t.Id == taskId).FirstOrDefaultAsync();
+		}
+		public async Task<IEnumerable<EmployeeTask>> GetTasksFromEmployeeAsync(int employeeId)
+		{
+			return await _context
+				.Tasks
+				.Where(t => t.EmployeeId == employeeId)
+				.OrderBy(t => t.Id)
+				.ToListAsync();
 		}
 		public async Task AddTaskAsync(EmployeeTask newTask)
 		{

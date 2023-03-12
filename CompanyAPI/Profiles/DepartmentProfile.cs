@@ -8,6 +8,7 @@ namespace CompanyAPI.Profiles
 	{
 		public DepartmentProfile()
 		{
+			CreateMap<Department, GetAllDepartmentsDto>();
 			CreateMap<Department, GetDepartmentResponseDto>();
 			CreateMap<PostDepartmentRequestDto, Department>();
 			CreateMap<PutDepartmentRequestDto, Department>();

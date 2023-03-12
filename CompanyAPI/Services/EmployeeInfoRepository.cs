@@ -7,14 +7,17 @@ namespace CompanyAPI.Services
 	public class EmployeeInfoRepository : IEmployeeInfoRepository
 	{
 		private readonly CompanyContext _context;
-		public EmployeeInfoRepository(CompanyContext context)
+		private readonly IDepartmentInfoRepository _departmentInfoRepository;
+		public EmployeeInfoRepository(CompanyContext context, IDepartmentInfoRepository departmentInfoRepository)
 		{
 			_context = context;
+			_departmentInfoRepository = departmentInfoRepository;
 		}
-		public async Task<IEnumerable<Employee>> GetEmployeesAsync()
+		public async Task<IEnumerable<Employee>> GetEmployeesFromDepartmentAsync(int departmentId)
 		{
 			return await _context
 				.Employees
+				.Where(e => e.DepartmentId == departmentId)
 				.OrderBy(e => e.FirstName)
 				.ToListAsync();
 		}
@@ -40,6 +43,14 @@ namespace CompanyAPI.Services
 		public async Task AddEmployeeAsync(Employee newEmployee)
 		{
 			_context.Employees.Add(newEmployee);
+		}
+		public async Task AddEmployeeForDepartmentAsync(int departmentId, Employee newEmployee)
+		{
+			var department = await _departmentInfoRepository.GetDepartmentAsync(departmentId);
+			if (department != null)
+			{
+				department.Employees.Add(newEmployee);
+			}
 		}
 		
 		public void DeleteEmployee(Employee employeeForDelete)

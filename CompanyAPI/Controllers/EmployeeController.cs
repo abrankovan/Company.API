@@ -13,16 +13,30 @@ namespace CompanyAPI.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IEmployeeInfoRepository _employeeInfoRepository;
-		public EmployeeController(IMapper mapper, IEmployeeInfoRepository employeeInfoRepository)
+		private readonly IDepartmentInfoRepository _departmentInfoRepository;
+		public EmployeeController(IMapper mapper, IEmployeeInfoRepository employeeInfoRepository, IDepartmentInfoRepository departmentInfoRepository)
 		{
 			_mapper = mapper;
 			_employeeInfoRepository = employeeInfoRepository;
+			_departmentInfoRepository = departmentInfoRepository;
+		}
+		[HttpGet("all/{departmentId}")]
+		public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesFromDepartment(int departmentId)
+		{
+			var department = await _departmentInfoRepository.GetDepartmentAsync(departmentId);
+			if(department == null)
+			{
+				return NotFound();
+			}
+			var allemployees = await _employeeInfoRepository.GetEmployeesFromDepartmentAsync(departmentId);
+			return Ok(_mapper.Map<IEnumerable<GetEmployeeResponseDto>>(allemployees));
+			
 		}
 
-		[HttpGet("{id}", Name = "GetEmployee")]
-		public async Task<ActionResult> GetEmployee(int id, bool includeTasks)
+		[HttpGet("{employeeId}", Name = "GetEmployee")]
+		public async Task<ActionResult> GetEmployee(int employeeId, bool includeTasks)
 		{
-			var employee = await _employeeInfoRepository.GetEmployeeAsync(id, includeTasks);
+			var employee = await _employeeInfoRepository.GetEmployeeAsync(employeeId, includeTasks);
 			if (employee == null)
 			{
 				return NotFound();
@@ -32,21 +46,26 @@ namespace CompanyAPI.Controllers
 		[HttpPost]
 		public async Task<ActionResult> AddEmployeeAsync(int departmentId, PostEmployeeRequestDto newEmployee)
 		{
+			if (!await _departmentInfoRepository.DepartmentExistAsync(departmentId))
+			{
+				return NotFound();
+			}
 			var createdEmployee = _mapper.Map<Entities.Employee>(newEmployee);
-			await _employeeInfoRepository.AddEmployeeAsync(createdEmployee);
+			await _employeeInfoRepository.AddEmployeeForDepartmentAsync(departmentId, createdEmployee);
 			await _employeeInfoRepository.SaveChangesAsync();
 			var createdEmployeeToReturn = _mapper.Map<GetEmployeeResponseDto>(createdEmployee);
 			return CreatedAtRoute("GetEmployee",
 				new
 				{
-					id = createdEmployeeToReturn.Id
+					departmentId = departmentId,
+					employeeId = createdEmployeeToReturn.Id
 				},
 				createdEmployeeToReturn);
 		}
-		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateEmployee(int id, bool task, PutEmployeeRequestDto employee)
+		[HttpPut("{employeeId}")]
+		public async Task<ActionResult> UpdateEmployee(int employeeId, bool task, PutEmployeeRequestDto employee)
 		{
-			var employeeForUpdate = await _employeeInfoRepository.GetEmployeeAsync(id, task);
+			var employeeForUpdate = await _employeeInfoRepository.GetEmployeeAsync(employeeId, task);
 			if(employeeForUpdate == null)
 			{
 				return NotFound();
@@ -57,10 +76,10 @@ namespace CompanyAPI.Controllers
 			return NoContent();
 		}
 
-		[HttpDelete("{id}")]
-		public async Task<ActionResult> DeleteEmployee(int id, bool task)
+		[HttpDelete("{employeeId}")]
+		public async Task<ActionResult> DeleteEmployee(int employeeId, bool task)
 		{
-			var employeeForDelete = await _employeeInfoRepository.GetEmployeeAsync(id, task);
+			var employeeForDelete = await _employeeInfoRepository.GetEmployeeAsync(employeeId, task);
 			if (employeeForDelete == null)
 			{
 				return NotFound();

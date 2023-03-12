@@ -16,24 +16,21 @@ namespace CompanyAPI.Services
 		{
 			return await _context.Department.OrderBy(d => d.Name).ToListAsync();
 		}
-		public async Task<Department?> GetDepartmentAsync(int departmentId, bool includeEmployee)
+		public async Task<Department?> GetDepartmentAsync(int departmentId)
 		{
-			if (includeEmployee)
-			{
-				return await _context
-					.Department
-					.Include(d => d.Employees)
-					.Where(e => e.Id == departmentId)
-					.FirstOrDefaultAsync();
-			}
+			
 			return await _context
 				.Department
 				.Where(d => d.Id == departmentId)
 				.FirstOrDefaultAsync();
 		}
+		public async Task<bool> DepartmentExistAsync(int departmentId)
+		{
+			return await _context.Department.AnyAsync(d => d.Id == departmentId);
+		}
 		public async Task AddDepartmentAsync(Department newDepartment)
 		{
-			_context.Department.Add(newDepartment);
+			await _context.Department.AddAsync(newDepartment);
 		}
 
 		public void DeleteDepartment(Department departmentForDelete)
