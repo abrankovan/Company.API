@@ -2,6 +2,7 @@
 using CompanyAPI.Dtos.Department;
 using CompanyAPI.Dtos.Employee;
 using CompanyAPI.Entities;
+using CompanyAPI.Models;
 using CompanyAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,10 +16,12 @@ namespace CompanyAPI.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IDepartmentInfoRepository _departmentInfoRepository;
-		public DepartmentController (IMapper mapper, IDepartmentInfoRepository departmentInfoRepository)
+		private readonly IStatisticsService _statisticsService;
+		public DepartmentController (IMapper mapper, IDepartmentInfoRepository departmentInfoRepository, IStatisticsService statisticsService)
 		{
 			_mapper = mapper;
 			_departmentInfoRepository = departmentInfoRepository;
+			_statisticsService = statisticsService;
 		}
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetAllDepartments()
@@ -36,6 +39,11 @@ namespace CompanyAPI.Controllers
 			}
 			
 			return Ok(_mapper.Map<GetDepartmentResponseDto>(department));
+		}
+		[HttpGet("{departmentId}/statistics")]
+		public async Task<ActionResult<DepartmentStatistics>> GetDepatmentStatistics(int departmentId)
+		{
+			return await _statisticsService.GetDepartmentStatistics(departmentId);
 		}
 
 		[HttpPost]

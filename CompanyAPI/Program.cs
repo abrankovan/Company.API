@@ -18,6 +18,7 @@ builder.Services.AddDbContext<CompanyContext>(
 builder.Services.AddScoped<IEmployeeInfoRepository, EmployeeInfoRepository>();
 builder.Services.AddScoped<ITaskInfoRepository, TaskInfoRepository>();
 builder.Services.AddScoped<IDepartmentInfoRepository, DepartmentInfoRepository>();
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
